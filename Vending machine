@@ -32,7 +32,9 @@ public class Main {
                     if (quantity[i] > 0) {
                         quantity[i]--;
                         balance -= prices[i];
+                        System.out.println();
                         System.out.println("You bought " + names[i] + ". Your updated balance is: " + balance);
+                        System.out.println();
                         Display_items(id, names, prices, quantity);
                     } else {
                         System.out.println("Sorry, " + names[i] + " is out of stock.");
