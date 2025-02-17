@@ -13,7 +13,7 @@ public class Main {
 
         int choice = geek1.nextInt();
         while (choice != 0) {
-            Buy(choice, id, Names, prices, quantity);
+            Buy(choice, id, Names, prices, quantity, geek1);
             choice = geek1.nextInt();
         }
     }
@@ -25,24 +25,34 @@ public class Main {
         System.out.print("Select item (or 0 to exit): ");
     }
 
-    public static void Buy(int selected_item, int[] id, String[] names, double[] prices, int[] quantity) {
+    public static void Buy(int selected_item, int[] id, String[] names, double[] prices, int[] quantity, Scanner reader) {
         for (int i = 0; i < id.length; i++) {
             if (selected_item == id[i]) {
-                if (balance >= prices[i]) {
-                    if (quantity[i] > 0) {
+                if (quantity[i] > 0) {
+                    System.out.println("The price of " + names[i] + " is: " + prices[i]);
+                    System.out.print("Insert money: ");
+                    double inserted = reader.nextDouble();
+
+                    if (inserted >= prices[i]) {
+                        double change = inserted - prices[i];
                         quantity[i]--;
                         balance -= prices[i];
-                        System.out.println();
-                        System.out.println("You bought " + names[i] + ". Your updated balance is: " + balance);
+
+                        System.out.println("You bought " + names[i] + ".");
+                        System.out.println("Your updated balance is: " + balance);
+                        if (change > 0) {
+                            System.out.println("Your change: " + change);
+                        }
                         System.out.println();
                         Display_items(id, names, prices, quantity);
                     } else {
-                        System.out.println("Sorry, " + names[i] + " is out of stock.");
+                        System.out.println("Insufficient amount inserted. Please try again.");
                     }
                 } else {
-                    System.out.println("You don't have enough money to buy that item!");
+                    System.out.println("Sorry, " + names[i] + " is out of stock.");
                 }
             }
         }
     }
+
 }
