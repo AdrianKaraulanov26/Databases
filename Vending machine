@@ -1,0 +1,46 @@
+import java.util.Scanner;
+public class Main {
+    public static int[] id = {1, 2, 3, 4};
+    public static String[] Names = {"Chips", "Cola", "Cookies", "Water"};
+    public static double[] prices = {1.5, 1.25, 2.0, 0.75};
+    public static int[] quantity = {4, 5, 4, 5};
+    public static double balance = 15.0;
+    public static void main(String[] args) {
+        Scanner geek1 = new Scanner(System.in);
+        System.out.println("In order to buy an item, insert its ID number, and the price will be subtracted from your balance.");
+        System.out.println("Your balance is: " + balance);
+        Display_items(id, Names, prices, quantity);
+
+        int choice = geek1.nextInt();
+        while (choice != 0) {
+            Buy(choice, id, Names, prices, quantity);
+            choice = geek1.nextInt();
+        }
+    }
+
+    public static void Display_items(int[] id, String[] names, double[] prices, int[] quantity) {
+        for (int i = 0; i < id.length; i++) {
+            System.out.println("Id: " + id[i] + " Item: " + names[i] + " Price: " + prices[i] + " Quantity: " + quantity[i]);
+        }
+        System.out.print("Select item (or 0 to exit): ");
+    }
+
+    public static void Buy(int selected_item, int[] id, String[] names, double[] prices, int[] quantity) {
+        for (int i = 0; i < id.length; i++) {
+            if (selected_item == id[i]) {
+                if (balance >= prices[i]) {
+                    if (quantity[i] > 0) {
+                        quantity[i]--;
+                        balance -= prices[i];
+                        System.out.println("You bought " + names[i] + ". Your updated balance is: " + balance);
+                        Display_items(id, names, prices, quantity);
+                    } else {
+                        System.out.println("Sorry, " + names[i] + " is out of stock.");
+                    }
+                } else {
+                    System.out.println("You don't have enough money to buy that item!");
+                }
+            }
+        }
+    }
+}
