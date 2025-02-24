@@ -12,20 +12,21 @@ public class Main {
         System.out.print("Most expensive: ");
         displayMostExpensive(cars).display();
         System.out.println("Average price of all cars: " + returnAverage(cars));
+        System.out.println("Would you like to lease a car? If so type the index of the car you want to lease, of you would like to exit type 0");
+        System.out.print("Lease #: ");
         Scanner car_guy = new Scanner(System.in);
         int operation = car_guy.nextByte();
         while (operation !=0){
-            cars[operation].Lease();
+            cars[operation-1].Lease();
             System.out.println("You have officially leased the car");
-            cars[operation].display();
             System.out.print("Would you like to lease another? If so enter its index here: ");
             operation = car_guy.nextByte();
         }
     }
     public static void displayCars(Car cars[]){
-            for(Car index: cars){
-                index.display();
-            }
+        for(Car index: cars){
+            index.display();
+        }
     }
     public static Car displayMostExpensive(Car cars[]){
         double mostExpenisve = 0;
