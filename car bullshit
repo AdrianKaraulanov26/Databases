@@ -1,0 +1,72 @@
+import java.util.Scanner;
+public class Main {
+
+    public static void main(String[] args) {
+        Car[] cars = {
+                new Car("Toyota", "Yaris", 1999, 14499.99, false),
+                new Car("Opel", "Signum", 2003, 8499.99, false),
+                new Car("Volkswagen", "Tiguan", 2020, 20899.99, true),
+                new Car("Volkswagen", "Passat B3", 1993, 6499.99, false),
+        };
+        displayCars(cars);
+        System.out.print("Most expensive: ");
+        displayMostExpensive(cars).display();
+        System.out.println("Average price of all cars: " + returnAverage(cars));
+        Scanner car_guy = new Scanner(System.in);
+        int operation = car_guy.nextByte();
+        while (operation !=0){
+            cars[operation].Lease();
+            System.out.println("You have officially leased the car");
+            cars[operation].display();
+            System.out.print("Would you like to lease another? If so enter its index here: ");
+            operation = car_guy.nextByte();
+        }
+    }
+    public static void displayCars(Car cars[]){
+            for(Car index: cars){
+                index.display();
+            }
+    }
+    public static Car displayMostExpensive(Car cars[]){
+        double mostExpenisve = 0;
+        int index = 0;
+        for(int i = 0; i< cars.length; i++){
+            if(cars[i].getPrice()>mostExpenisve){
+                mostExpenisve =cars[i].getPrice();
+                index = i;
+            }
+        }
+        return cars[index];
+    }
+    public static double returnAverage(Car cars[]){
+        double Sum = 0;
+        for(Car index: cars){
+            Sum += index.getPrice();
+        }
+        return Sum/ cars.length;
+    }
+}
+class Car{
+    private String make;
+    private String model;
+    private int year;
+    private double price;
+    private boolean isLeased;
+    public Car(String make, String model, int year, double price, boolean isLeased){
+        this.make = make;
+        this.model = model;
+        this.year = year;
+        this.price = price;
+        this.isLeased = isLeased;
+    }
+    public  void display(){
+        System.out.println("make: " + make + " | model: " + model + " | year: " + year + " | price: " + price + " | isLeased: " + isLeased);
+    }
+    public void Lease(){
+        isLeased = true;
+        display();
+    }
+    public double getPrice(){
+        return price;
+    }
+}
