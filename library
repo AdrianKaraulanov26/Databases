@@ -1,0 +1,149 @@
+import java.util.Objects;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner librarian = new Scanner(System.in);
+        Book[] library = {
+                new Book("The Great Gatsby", "F. Scott Fitzgerald", 1925),
+                new Book("Amphibian_Man", "Alexander Beliaev", 1928, "Adrian Karaulanov"),
+                new Book("King Rat", "James Clavell", 1962),
+                new Book("Zorba the Greek", "Nikos Kazantzakis", 1946),
+                new Book("Ender's Game", "Orson Scott Card", 1985, "Daniel Vangelov"),
+        };
+        int operator;
+        do {
+            System.out.println();
+            System.out.println("--------Library system-----------");
+            System.out.println("1. Display library");
+            System.out.println("2. Borrow Book");
+            System.out.println("3. Return Book");
+            System.out.println("4. Find Book by Title");
+            System.out.print("Enter an operation, or type 0 to exit: ");
+
+            operator = librarian.nextInt();
+            librarian.nextLine();
+            System.out.println();
+
+            switch (operator) {
+                case 1:
+                    displayLibrary(library);
+                    break;
+                case 2:
+                    borrowBook(library, librarian);
+                    break;
+                case 3:
+                    returnBook(library, librarian);
+                    break;
+                case 4:
+                    findBookByTitle(library, librarian);
+                    break;
+            }
+        } while (operator != 0);
+
+        librarian.close();
+    }
+
+    public static void displayLibrary(Book[] books) {
+        System.out.println("----Library information----");
+        for (Book book : books) {
+            book.getDetails();
+        }
+    }
+
+    public static void borrowBook(Book[] books, Scanner lib) {
+        System.out.println("Which book do you want to borrow?");
+        String title = lib.nextLine();
+       // System.out.println("TOMATO"); ancient debug tool
+        for (Book book : books) {
+            if (Objects.equals(book.getTitle(), title)) {
+                if (book.getBorrower_name() == null) {
+                    System.out.println("Insert the name of the reader who wants to borrow " + book.getTitle());
+                    System.out.print("Borrower: ");
+                    String borrower = lib.nextLine();
+                    book.borrowBook(borrower);
+                    return;
+                } else {
+                    System.out.println("Sorry, this book is already borrowed.");
+                    return;
+                }
+            }
+        }
+        System.out.println("Book not found.");
+    }
+
+    public static void returnBook(Book[] books, Scanner lib) {
+        System.out.println("Enter the book title to return:");
+        String title = lib.nextLine();
+
+        for (Book book : books) {
+            if (Objects.equals(book.getTitle(), title)) {
+                book.returnBook();
+                return;
+            }
+        }
+        System.out.println("Book not found.");
+    }
+
+    public static void findBookByTitle(Book[] books, Scanner lib) {
+        System.out.println("Enter the book title to search:");
+        String title = lib.nextLine();
+        int index = 0;
+        for (Book book : books) {
+            if (Objects.equals(book.getTitle(), title)) {
+                System.out.println("Book found:");
+                book.getDetails();
+                System.out.println("Book index in the library: " + index+1);
+                return;
+            }
+            index++;
+        }
+        System.out.println("Book not found.");
+    }
+}
+
+class Book {
+    private String title;
+    private String author;
+    private int year_published;
+    private String borrower_name = null;
+
+    public Book(String title, String author, int year_published) {
+        this.title = title;
+        this.author = author;
+        this.year_published = year_published;
+    }
+
+    public Book(String title, String author, int year_published, String borrower_name) {
+        this.title = title;
+        this.author = author;
+        this.year_published = year_published;
+        this.borrower_name = borrower_name;
+    }
+
+    public void getDetails() {
+        if (borrower_name == null) {
+            System.out.println("Title: " + title + " | Author: " + author + " | Year: " + year_published);
+        } else {
+            System.out.println("Title: " + title + " | Author: " + author + " | Year: " + year_published + " | Borrower: " + borrower_name);
+        }
+    }
+
+    public void borrowBook(String borrower_name) {
+        this.borrower_name = borrower_name;
+        getDetails();
+    }
+
+    public void returnBook() {
+        borrower_name = null;
+        getDetails();
+    }
+
+    public String getBorrower_name() {
+        return borrower_name;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+}
